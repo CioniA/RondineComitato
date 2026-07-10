@@ -3,203 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocabolario · Speaking in Tuscany</title>
+<title>Vocabolario · Tutti i capitoli · Speaking in Tuscany</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
-
-  :root {
-    --stone:   #EDE8DF;   /* background - warm limestone */
-    --paper:   #F8F5EF;   /* cards */
-    --ink:     #2B2A26;   /* text */
-    --muted:   #7C776C;   /* secondary text */
-    --sage:    #5E7355;   /* sage green - primary */
-    --sage-d:  #47593F;   /* darker sage */
-    --brick:   #A6432E;   /* brick red - accent */
-    --brick-l: #C56A54;
-    --line:    #D8D1C4;   /* hairlines */
-    --gold:    #C6923A;   /* correct / highlight */
-    --ok:      #4B6B4A;
-    --no:      #A6432E;
-    --shadow:  0 2px 10px rgba(43,42,38,.08);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--stone);
-    color: var(--ink);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    padding: 20px 16px 60px;
-  }
-
-  .wrap { max-width: 720px; margin: 0 auto; }
-
-  /* ---- Header ---- */
-  header { text-align: center; margin-bottom: 22px; }
-  .eyebrow {
-    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--brick); font-weight: 600; margin-bottom: 6px;
-  }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(28px, 6vw, 40px); line-height: 1.05; color: var(--ink);
-  }
-  .signature {
-    font-family: 'Fraunces', serif; font-style: italic; font-size: 15px;
-    color: var(--brick); margin-top: 8px; letter-spacing: .01em;
-  }
-  .sub { color: var(--muted); font-size: 14px; margin-top: 6px; }
-
-  /* ---- Controls ---- */
-  .controls {
-    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
-    padding: 14px; margin-bottom: 18px; box-shadow: var(--shadow);
-  }
-  .control-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .control-row + .control-row { margin-top: 10px; }
-  label.field { font-size: 12px; color: var(--muted); font-weight: 600;
-    text-transform: uppercase; letter-spacing: .06em; margin-right: 2px; }
-  select {
-    font-family: inherit; font-size: 14px; color: var(--ink);
-    background: var(--stone); border: 1px solid var(--line); border-radius: 9px;
-    padding: 8px 12px; cursor: pointer; flex: 1; min-width: 140px;
-  }
-  .dir-toggle { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
-  .dir-toggle button {
-    font-family: inherit; font-size: 13px; padding: 8px 12px; border: none;
-    background: var(--stone); color: var(--muted); cursor: pointer; font-weight: 500;
-  }
-  .dir-toggle button.on { background: var(--sage); color: #fff; }
-
-  /* ---- Mode tabs ---- */
-  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
-  .tab {
-    font-family: inherit; font-size: 13px; font-weight: 600; text-align: center;
-    padding: 12px 6px; border: 1px solid var(--line); border-radius: 11px;
-    background: var(--paper); color: var(--muted); cursor: pointer;
-    transition: all .15s; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  }
-  .tab .ic { font-size: 18px; line-height: 1; }
-  .tab.on { background: var(--sage); color: #fff; border-color: var(--sage); box-shadow: var(--shadow); }
-  .tab:not(.on):hover { border-color: var(--sage); color: var(--sage-d); }
-
-  /* ---- Panel ---- */
-  .panel {
-    background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
-    padding: 24px; box-shadow: var(--shadow); min-height: 340px;
-    display: flex; flex-direction: column;
-  }
-  .panel-status {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 13px; color: var(--muted); margin-bottom: 18px;
-    padding-bottom: 12px; border-bottom: 1px solid var(--line);
-  }
-  .panel-status .score b { color: var(--sage-d); }
-
-  /* ---- Flashcard ---- */
-  .flashcard {
-    flex: 1; display: flex; align-items: center; justify-content: center;
-    perspective: 1200px; margin-bottom: 18px; min-height: 180px;
-  }
-  .card-inner {
-    position: relative; width: 100%; max-width: 460px; min-height: 180px;
-    cursor: pointer; transition: transform .5s; transform-style: preserve-3d;
-  }
-  .card-inner.flipped { transform: rotateY(180deg); }
-  .card-face {
-    position: absolute; inset: 0; backface-visibility: hidden;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    border-radius: 14px; padding: 28px; text-align: center;
-  }
-  .card-front { background: var(--stone); border: 1px solid var(--line); }
-  .card-back { background: var(--sage); color: #fff; transform: rotateY(180deg); }
-  .card-word { font-family: 'Fraunces', serif; font-size: clamp(24px, 6vw, 34px); font-weight: 500; }
-  .card-face .flag { font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-    margin-bottom: 12px; opacity: .6; font-weight: 600; }
-  .card-hint { font-size: 12px; color: var(--muted); margin-top: 14px; }
-  .card-back .card-hint { color: rgba(255,255,255,.7); }
-
-  .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  button.act {
-    font-family: inherit; font-size: 14px; font-weight: 600; padding: 12px 22px;
-    border-radius: 10px; border: 1px solid var(--line); background: var(--stone);
-    color: var(--ink); cursor: pointer; transition: all .15s;
-  }
-  button.act:hover { border-color: var(--sage); }
-  button.act.primary { background: var(--sage); color: #fff; border-color: var(--sage); }
-  button.act.know { background: #EAF0E6; color: var(--ok); border-color: #C4D5BC; }
-  button.act.dunno { background: #F6E4DF; color: var(--no); border-color: #E4BFB4; }
-  button.act:active { transform: translateY(1px); }
-
-  /* ---- Quiz ---- */
-  .quiz-q { text-align: center; margin-bottom: 22px; }
-  .quiz-q .flag { font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--brick); font-weight: 600; margin-bottom: 8px; }
-  .quiz-q .word { font-family: 'Fraunces', serif; font-size: clamp(26px, 6vw, 36px); font-weight: 500; }
-  .quiz-opts { display: grid; gap: 10px; }
-  .opt {
-    font-family: inherit; font-size: 15px; text-align: left; padding: 14px 16px;
-    border: 1px solid var(--line); border-radius: 11px; background: var(--stone);
-    color: var(--ink); cursor: pointer; transition: all .12s;
-  }
-  .opt:hover:not(:disabled) { border-color: var(--sage); background: #fff; }
-  .opt.correct { background: #EAF0E6; border-color: var(--ok); color: var(--ok); font-weight: 600; }
-  .opt.wrong { background: #F6E4DF; border-color: var(--no); color: var(--no); }
-  .opt:disabled { cursor: default; }
-
-  /* ---- Matching ---- */
-  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .match-col { display: flex; flex-direction: column; gap: 10px; }
-  .match-item {
-    font-family: inherit; font-size: 15px; padding: 13px 14px; border-radius: 10px;
-    border: 1px solid var(--line); background: var(--stone); cursor: pointer;
-    text-align: center; transition: all .12s; color: var(--ink);
-  }
-  .match-item.it { font-family: 'Fraunces', serif; }
-  .match-item:hover:not(.done) { border-color: var(--sage); }
-  .match-item.sel { background: var(--sage); color: #fff; border-color: var(--sage); }
-  .match-item.done { opacity: .35; cursor: default; border-style: dashed; }
-  .match-item.flash-ok { background: #EAF0E6; border-color: var(--ok); }
-  .match-item.flash-no { background: #F6E4DF; border-color: var(--no); }
-
-  /* ---- Speedrun ---- */
-  .speed-timer { text-align: center; font-family: 'Fraunces', serif; font-size: 46px;
-    font-weight: 500; color: var(--brick); margin-bottom: 4px; }
-  .speed-timer.low { color: var(--no); }
-  .speed-bar { height: 6px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 22px; }
-  .speed-bar-fill { height: 100%; background: var(--sage); transition: width 1s linear; }
-
-  /* ---- Start / result screens ---- */
-  .center-screen { flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center; gap: 16px; }
-  .center-screen h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; }
-  .center-screen p { color: var(--muted); max-width: 380px; }
-  .big-num { font-family: 'Fraunces', serif; font-size: 60px; font-weight: 600; color: var(--sage); line-height: 1; }
-  .best { font-size: 13px; color: var(--muted); }
-  .best b { color: var(--gold); }
-
-  .empty { color: var(--muted); text-align: center; margin: auto; font-size: 15px; }
-
-  @media (max-width: 480px) {
-    .tab .lbl { font-size: 11px; }
-    .panel { padding: 18px; }
-    select { min-width: 110px; }
-  }
+  :root { --stone:#EDE8DF; --paper:#F8F5EF; --ink:#2B2A26; --muted:#7C776C;
+    --sage:#5E7355; --sage-d:#47593F; --brick:#A6432E; --line:#D8D1C4; --gold:#C6923A; --ok:#4B6B4A; --no:#A6432E;
+    --shadow:0 2px 10px rgba(43,42,38,.08); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--stone); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; padding:20px 16px 60px; }
+  .wrap { max-width:720px; margin:0 auto; }
+  header { text-align:center; margin-bottom:22px; }
+  .eyebrow { font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--brick); font-weight:600; margin-bottom:6px; }
+  h1 { font-family:'Fraunces',serif; font-weight:500; font-size:clamp(28px,6vw,40px); line-height:1.05; }
+  .signature { font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--brick); margin-top:8px; }
+  .sub { color:var(--muted); font-size:14px; margin-top:6px; }
+  .controls { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:18px; box-shadow:var(--shadow); }
+  .control-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  .control-row + .control-row { margin-top:10px; }
+  label.field { font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+  select { font-family:inherit; font-size:14px; color:var(--ink); background:var(--stone); border:1px solid var(--line); border-radius:9px; padding:8px 12px; cursor:pointer; flex:1; min-width:130px; }
+  .dir-toggle { display:flex; border:1px solid var(--line); border-radius:9px; overflow:hidden; }
+  .dir-toggle button { font-family:inherit; font-size:13px; padding:8px 12px; border:none; background:var(--stone); color:var(--muted); cursor:pointer; font-weight:500; }
+  .dir-toggle button.on { background:var(--sage); color:#fff; }
+  .tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:18px; }
+  .tab { font-family:inherit; font-size:13px; font-weight:600; text-align:center; padding:12px 6px; border:1px solid var(--line); border-radius:11px; background:var(--paper); color:var(--muted); cursor:pointer; transition:all .15s; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .tab .ic { font-size:18px; line-height:1; }
+  .tab.on { background:var(--sage); color:#fff; border-color:var(--sage); box-shadow:var(--shadow); }
+  .tab:not(.on):hover { border-color:var(--sage); color:var(--sage-d); }
+  .panel { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:24px; box-shadow:var(--shadow); min-height:340px; display:flex; flex-direction:column; }
+  .panel-status { display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+  .panel-status .score b { color:var(--sage-d); }
+  .flashcard { flex:1; display:flex; align-items:center; justify-content:center; perspective:1200px; margin-bottom:18px; min-height:180px; }
+  .card-inner { position:relative; width:100%; max-width:460px; min-height:180px; cursor:pointer; transition:transform .5s; transform-style:preserve-3d; }
+  .card-inner.flipped { transform:rotateY(180deg); }
+  .card-face { position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:14px; padding:28px; text-align:center; }
+  .card-front { background:var(--stone); border:1px solid var(--line); }
+  .card-back { background:var(--sage); color:#fff; transform:rotateY(180deg); }
+  .card-word { font-family:'Fraunces',serif; font-size:clamp(24px,6vw,34px); font-weight:500; }
+  .card-face .flag { font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:12px; opacity:.6; font-weight:600; }
+  .card-hint { font-size:12px; color:var(--muted); margin-top:14px; }
+  .card-back .card-hint { color:rgba(255,255,255,.7); }
+  .btn-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  button.act { font-family:inherit; font-size:14px; font-weight:600; padding:12px 22px; border-radius:10px; border:1px solid var(--line); background:var(--stone); color:var(--ink); cursor:pointer; transition:all .15s; }
+  button.act:hover { border-color:var(--sage); }
+  button.act.primary { background:var(--sage); color:#fff; border-color:var(--sage); }
+  button.act.know { background:#EAF0E6; color:var(--ok); border-color:#C4D5BC; }
+  button.act.dunno { background:#F6E4DF; color:var(--no); border-color:#E4BFB4; }
+  button.act:active { transform:translateY(1px); }
+  .quiz-q { text-align:center; margin-bottom:22px; }
+  .quiz-q .flag { font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brick); font-weight:600; margin-bottom:8px; }
+  .quiz-q .word { font-family:'Fraunces',serif; font-size:clamp(26px,6vw,36px); font-weight:500; }
+  .quiz-opts { display:grid; gap:10px; }
+  .opt { font-family:inherit; font-size:15px; text-align:left; padding:14px 16px; border:1px solid var(--line); border-radius:11px; background:var(--stone); color:var(--ink); cursor:pointer; transition:all .12s; }
+  .opt:hover:not(:disabled) { border-color:var(--sage); background:#fff; }
+  .opt.correct { background:#EAF0E6; border-color:var(--ok); color:var(--ok); font-weight:600; }
+  .opt.wrong { background:#F6E4DF; border-color:var(--no); color:var(--no); }
+  .opt:disabled { cursor:default; }
+  .match-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .match-col { display:flex; flex-direction:column; gap:10px; }
+  .match-item { font-family:inherit; font-size:15px; padding:13px 14px; border-radius:10px; border:1px solid var(--line); background:var(--stone); cursor:pointer; text-align:center; transition:all .12s; color:var(--ink); }
+  .match-item.it { font-family:'Fraunces',serif; }
+  .match-item:hover:not(.done) { border-color:var(--sage); }
+  .match-item.sel { background:var(--sage); color:#fff; border-color:var(--sage); }
+  .match-item.done { opacity:.35; cursor:default; border-style:dashed; }
+  .match-item.flash-ok { background:#EAF0E6; border-color:var(--ok); }
+  .match-item.flash-no { background:#F6E4DF; border-color:var(--no); }
+  .speed-timer { text-align:center; font-family:'Fraunces',serif; font-size:46px; font-weight:500; color:var(--brick); margin-bottom:4px; }
+  .speed-timer.low { color:var(--no); }
+  .speed-bar { height:6px; background:var(--line); border-radius:4px; overflow:hidden; margin-bottom:22px; }
+  .speed-bar-fill { height:100%; background:var(--sage); transition:width 1s linear; }
+  .center-screen { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:16px; }
+  .center-screen h2 { font-family:'Fraunces',serif; font-weight:500; font-size:26px; }
+  .center-screen p { color:var(--muted); max-width:380px; }
+  .big-num { font-family:'Fraunces',serif; font-size:60px; font-weight:600; color:var(--sage); line-height:1; }
+  .best { font-size:13px; color:var(--muted); }
+  .best b { color:var(--gold); }
+  .empty { color:var(--muted); text-align:center; margin:auto; font-size:15px; }
+  @media (max-width:480px){ .tab .lbl{font-size:11px;} .panel{padding:18px;} select{min-width:110px;} }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Comitato Interreligioso · Settimana 1</div>
+    <div class="eyebrow">Comitato Interreligioso · Tutti i capitoli</div>
     <h1>Vocabolario</h1>
     <div class="signature">Speaking in Tuscany · Antonio Cioni</div>
     <div class="sub" id="deckInfo">Italiano ↔ English</div>
   </header>
-
   <div class="controls">
+    <div class="control-row">
+      <label class="field">Capitolo</label>
+      <select id="chapSelect">
+        <option value="all">Tutti i capitoli</option>
+        <option value="s1">Settimana 1 — Base</option>
+        <option value="4">Capitolo 4 — Tempo libero</option>
+        <option value="5">Capitolo 5 — In albergo</option>
+      </select>
+    </div>
     <div class="control-row">
       <label class="field">Categoria</label>
       <select id="catSelect"></select>
@@ -212,432 +112,238 @@
       </div>
     </div>
   </div>
-
   <div class="tabs" id="tabs">
     <button class="tab on" data-mode="flash"><span class="ic">🎴</span><span class="lbl">Flashcard</span></button>
     <button class="tab" data-mode="quiz"><span class="ic">✓</span><span class="lbl">Quiz</span></button>
     <button class="tab" data-mode="match"><span class="ic">🔗</span><span class="lbl">Abbina</span></button>
     <button class="tab" data-mode="speed"><span class="ic">⚡</span><span class="lbl">Speedrun</span></button>
   </div>
-
   <div class="panel" id="panel"></div>
 </div>
-
 <script>
-// ============ DATA ============
 const DATA = {
-  "Verbi": [
-    ["essere","to be"],["avere","to have"],["fare","to do / to make"],["stare","to stay / to be"],
-    ["chiamarsi","to be called"],["abitare","to live (reside)"],["vivere","to live"],["lavorare","to work"],
-    ["studiare","to study"],["parlare","to speak"],["ascoltare","to listen"],["guidare","to drive"],
-    ["cercare","to look for"],["aspettare","to wait"],["mangiare","to eat"],["arrivare","to arrive"],
-    ["tornare","to return"],["imparare","to learn"],["desiderare","to wish"],["spiegare","to explain"],
-    ["prenotare","to book / reserve"],["ordinare","to order"],["prendere","to take / have (food)"],
-    ["leggere","to read"],["scrivere","to write"],["vedere","to see"],["mettere","to put"],
-    ["chiudere","to close"],["chiedere","to ask"],["ripetere","to repeat"],["vincere","to win"],
-    ["perdere","to lose"],["conoscere","to know (people/places)"],["scegliere","to choose"],
-    ["volere","to want"],["potere","to be able / can"],["dovere","to have to / must"],["preferire","to prefer"],
-    ["capire","to understand"],["dire","to say"],["andare","to go"],["venire","to come"],["bere","to drink"],
-    ["offrire","to offer"],["pagare","to pay"],["costare","to cost"]
-  ],
-  "Numeri": [
-    ["zero","zero"],["uno","one"],["due","two"],["tre","three"],["quattro","four"],["cinque","five"],
-    ["sei","six"],["sette","seven"],["otto","eight"],["nove","nine"],["dieci","ten"],["undici","eleven"],
-    ["dodici","twelve"],["tredici","thirteen"],["quattordici","fourteen"],["quindici","fifteen"],
-    ["sedici","sixteen"],["diciassette","seventeen"],["diciotto","eighteen"],["diciannove","nineteen"],
-    ["venti","twenty"],["ventuno","twenty-one"],["ventidue","twenty-two"],["trenta","thirty"],
-    ["quaranta","forty"],["cinquanta","fifty"],["sessanta","sixty"],["settanta","seventy"],
-    ["ottanta","eighty"],["novanta","ninety"],["cento","one hundred"]
-  ],
-  "Nazioni e nazionalità": [
-    ["l'Italia — italiano","Italy — Italian"],["la Grecia — greco","Greece — Greek"],
-    ["l'India — indiano","India — Indian"],["l'Etiopia — etiope","Ethiopia — Ethiopian"],
-    ["la Romania — romeno","Romania — Romanian"],["la Serbia — serbo","Serbia — Serbian"],
-    ["la Georgia — georgiano","Georgia — Georgian"],["la Palestina — palestinese","Palestine — Palestinian"],
-    ["la Francia — francese","France — French"],["la Germania — tedesco","Germany — German"],
-    ["la Spagna — spagnolo","Spain — Spanish"],["il Portogallo — portoghese","Portugal — Portuguese"],
-    ["l'Inghilterra — inglese","England — English"],["la Cina — cinese","China — Chinese"],
-    ["la Russia — russo","Russia — Russian"],["gli Stati Uniti — americano","USA — American"]
-  ],
-  "Professioni": [
-    ["l'insegnante","teacher"],["il professore","professor"],["lo studente","student"],
-    ["il medico / il dottore","doctor"],["l'infermiere","nurse"],["l'avvocato","lawyer"],
-    ["l'ingegnere","engineer"],["l'architetto","architect"],["la segretaria","secretary"],
-    ["l'impiegato","office worker"],["l'operaio","factory worker"],["il cuoco","cook / chef"],
-    ["il cameriere","waiter"],["il commesso","shop assistant"],["il giornalista","journalist"],
-    ["il farmacista","pharmacist"],["il tassista","taxi driver"],["il cantante","singer"],
-    ["il turista","tourist"],["il sacerdote / il prete","priest"]
-  ],
-  "Luoghi di lavoro": [
-    ["la scuola","school"],["l'università","university"],["l'ospedale","hospital"],
-    ["la fabbrica","factory"],["la farmacia","pharmacy"],["il negozio","shop"],
-    ["il supermercato","supermarket"],["il ristorante","restaurant"],["il bar","café / bar"],
-    ["l'ufficio","office"],["lo studio","studio / office"],["l'agenzia","agency"],["la cucina","kitchen"]
-  ],
-  "Materie di studio": [
-    ["la teologia","theology"],["il diritto canonico","canon law"],["le scienze politiche","political science"],
-    ["la filosofia","philosophy"],["la storia","history"],["la lingua","language"],
-    ["la religione","religion"],["la Chiesa","the Church"],["la Bibbia","the Bible"],["il seminario","seminary"]
-  ],
-  "Bar e colazione": [
-    ["la colazione","breakfast"],["il caffè","coffee (espresso)"],["il caffè macchiato","espresso w/ milk"],
-    ["il caffè lungo","long espresso"],["il caffè ristretto","short/strong espresso"],
-    ["il caffè corretto","espresso w/ liquor"],["il cappuccino","cappuccino"],
-    ["il latte macchiato","milk w/ a little coffee"],["il tè","tea"],["la spremuta","fresh juice"],
-    ["il succo di frutta","fruit juice"],["il cornetto","croissant"],["il panino","sandwich"],
-    ["il toast","toasted sandwich"],["la marmellata","jam"],["il burro","butter"],["il pane","bread"],
-    ["il latte","milk"],["lo zucchero","sugar"],["il miele","honey"]
-  ],
-  "Al ristorante": [
-    ["il menù","menu"],["l'antipasto","starter"],["il primo","first course"],["il secondo","main course"],
-    ["il contorno","side dish"],["il dolce","dessert"],["l'aperitivo","aperitif"],["il cameriere","waiter"],
-    ["il cuoco","chef"],["il conto","the bill"],["la mancia","the tip"],["la prenotazione","reservation"],
-    ["il tavolo","table"],["la sedia","chair"],["il piatto","plate"],["il bicchiere","glass"],
-    ["la bottiglia","bottle"],["la forchetta","fork"],["il coltello","knife"],["il cucchiaio","spoon"],
-    ["il cucchiaino","teaspoon"],["il tovagliolo","napkin"],["la tovaglia","tablecloth"],["il sale","salt"],
-    ["il pepe","pepper"],["l'olio","oil"],["l'aceto","vinegar"]
-  ],
-  "Cibi e piatti": [
-    ["gli spaghetti","spaghetti"],["le lasagne","lasagne"],["i tortellini","tortellini"],
-    ["le tagliatelle","tagliatelle"],["le penne","penne"],["il risotto","risotto"],
-    ["la minestra","soup"],["la bruschetta","bruschetta"],["l'affettato","cold cuts"],["la carne","meat"],
-    ["il pesce","fish"],["la cotoletta","breaded cutlet"],["l'arrosto","roast"],["la sogliola","sole"],
-    ["gli spinaci","spinach"],["l'insalata","salad"],["le patate","potatoes"],["la verdura","vegetables"],
-    ["i funghi","mushrooms"],["la cicoria","chicory"],["il purè","mashed potatoes"],
-    ["la macedonia","fruit salad"],["il gelato","ice cream"],["lo strudel","strudel"],
-    ["la fragola","strawberry"],["il vino","wine"],["l'acqua","water"]
-  ],
-  "Saluti ed espressioni": [
-    ["ciao","hi / bye"],["buongiorno","good morning"],["buonasera","good evening"],
-    ["arrivederci","goodbye"],["per favore","please"],["grazie","thank you"],["prego","you're welcome"],
-    ["piacere","nice to meet you"],["scusi / scusa","excuse me"],["sì / no","yes / no"],["oggi","today"],
-    ["adesso","now"],["poi","then"],["oppure","or"],["anche","also"],["vicino a","near"],
-    ["lontano da","far from"],["forse","maybe"],["molto","very / a lot"],["un po'","a little"]
-  ]
+  "s1": {
+    "Verbi": [["essere","to be"],["avere","to have"],["fare","to do / to make"],["stare","to stay / to be"],["chiamarsi","to be called"],["abitare","to live (reside)"],["vivere","to live"],["lavorare","to work"],["studiare","to study"],["parlare","to speak"],["ascoltare","to listen"],["guidare","to drive"],["cercare","to look for"],["aspettare","to wait"],["mangiare","to eat"],["arrivare","to arrive"],["tornare","to return"],["imparare","to learn"],["desiderare","to wish"],["spiegare","to explain"],["prenotare","to book / reserve"],["ordinare","to order"],["prendere","to take / have (food)"],["leggere","to read"],["scrivere","to write"],["vedere","to see"],["mettere","to put"],["chiudere","to close"],["chiedere","to ask"],["ripetere","to repeat"],["vincere","to win"],["perdere","to lose"],["conoscere","to know (people/places)"],["scegliere","to choose"],["volere","to want"],["potere","to be able / can"],["dovere","to have to / must"],["preferire","to prefer"],["capire","to understand"],["dire","to say"],["andare","to go"],["venire","to come"],["bere","to drink"],["offrire","to offer"],["pagare","to pay"],["costare","to cost"]],
+    "Numeri": [["zero","zero"],["uno","one"],["due","two"],["tre","three"],["quattro","four"],["cinque","five"],["sei","six"],["sette","seven"],["otto","eight"],["nove","nine"],["dieci","ten"],["undici","eleven"],["dodici","twelve"],["tredici","thirteen"],["quattordici","fourteen"],["quindici","fifteen"],["sedici","sixteen"],["diciassette","seventeen"],["diciotto","eighteen"],["diciannove","nineteen"],["venti","twenty"],["ventuno","twenty-one"],["ventidue","twenty-two"],["trenta","thirty"],["quaranta","forty"],["cinquanta","fifty"],["sessanta","sixty"],["settanta","seventy"],["ottanta","eighty"],["novanta","ninety"],["cento","one hundred"]],
+    "Nazioni e nazionalità": [["l'Italia — italiano","Italy — Italian"],["la Grecia — greco","Greece — Greek"],["l'India — indiano","India — Indian"],["l'Etiopia — etiope","Ethiopia — Ethiopian"],["la Romania — romeno","Romania — Romanian"],["la Serbia — serbo","Serbia — Serbian"],["la Georgia — georgiano","Georgia — Georgian"],["la Palestina — palestinese","Palestine — Palestinian"],["la Francia — francese","France — French"],["la Germania — tedesco","Germany — German"],["la Spagna — spagnolo","Spain — Spanish"],["il Portogallo — portoghese","Portugal — Portuguese"],["l'Inghilterra — inglese","England — English"],["la Cina — cinese","China — Chinese"],["la Russia — russo","Russia — Russian"],["gli Stati Uniti — americano","USA — American"]],
+    "Professioni": [["l'insegnante","teacher"],["il professore","professor"],["lo studente","student"],["il medico / il dottore","doctor"],["l'infermiere","nurse"],["l'avvocato","lawyer"],["l'ingegnere","engineer"],["l'architetto","architect"],["la segretaria","secretary"],["l'impiegato","office worker"],["l'operaio","factory worker"],["il cuoco","cook / chef"],["il cameriere","waiter"],["il commesso","shop assistant"],["il giornalista","journalist"],["il farmacista","pharmacist"],["il tassista","taxi driver"],["il cantante","singer"],["il turista","tourist"],["il sacerdote / il prete","priest"]],
+    "Luoghi di lavoro": [["la scuola","school"],["l'università","university"],["l'ospedale","hospital"],["la fabbrica","factory"],["la farmacia","pharmacy"],["il negozio","shop"],["il supermercato","supermarket"],["il ristorante","restaurant"],["il bar","café / bar"],["l'ufficio","office"],["lo studio","studio / office"],["l'agenzia","agency"],["la cucina","kitchen"]],
+    "Materie di studio": [["la teologia","theology"],["il diritto canonico","canon law"],["le scienze politiche","political science"],["la filosofia","philosophy"],["la storia","history"],["la lingua","language"],["la religione","religion"],["la Chiesa","the Church"],["la Bibbia","the Bible"],["il seminario","seminary"]],
+    "Bar e colazione": [["la colazione","breakfast"],["il caffè","coffee (espresso)"],["il caffè macchiato","espresso w/ milk"],["il caffè lungo","long espresso"],["il caffè ristretto","short/strong espresso"],["il caffè corretto","espresso w/ liquor"],["il cappuccino","cappuccino"],["il latte macchiato","milk w/ a little coffee"],["il tè","tea"],["la spremuta","fresh juice"],["il succo di frutta","fruit juice"],["il cornetto","croissant"],["il panino","sandwich"],["il toast","toasted sandwich"],["la marmellata","jam"],["il burro","butter"],["il pane","bread"],["il latte","milk"],["lo zucchero","sugar"],["il miele","honey"]],
+    "Al ristorante": [["il menù","menu"],["l'antipasto","starter"],["il primo","first course"],["il secondo","main course"],["il contorno","side dish"],["il dolce","dessert"],["l'aperitivo","aperitif"],["il cameriere","waiter"],["il cuoco","chef"],["il conto","the bill"],["la mancia","the tip"],["la prenotazione","reservation"],["il tavolo","table"],["la sedia","chair"],["il piatto","plate"],["il bicchiere","glass"],["la bottiglia","bottle"],["la forchetta","fork"],["il coltello","knife"],["il cucchiaio","spoon"],["il cucchiaino","teaspoon"],["il tovagliolo","napkin"],["la tovaglia","tablecloth"],["il sale","salt"],["il pepe","pepper"],["l'olio","oil"],["l'aceto","vinegar"]],
+    "Cibi e piatti": [["gli spaghetti","spaghetti"],["le lasagne","lasagne"],["i tortellini","tortellini"],["le tagliatelle","tagliatelle"],["le penne","penne"],["il risotto","risotto"],["la minestra","soup"],["la bruschetta","bruschetta"],["l'affettato","cold cuts"],["la carne","meat"],["il pesce","fish"],["la cotoletta","breaded cutlet"],["l'arrosto","roast"],["la sogliola","sole"],["gli spinaci","spinach"],["l'insalata","salad"],["le patate","potatoes"],["la verdura","vegetables"],["i funghi","mushrooms"],["la cicoria","chicory"],["il purè","mashed potatoes"],["la macedonia","fruit salad"],["il gelato","ice cream"],["lo strudel","strudel"],["la fragola","strawberry"],["il vino","wine"],["l'acqua","water"]],
+    "Saluti ed espressioni": [["ciao","hi / bye"],["buongiorno","good morning"],["buonasera","good evening"],["arrivederci","goodbye"],["per favore","please"],["grazie","thank you"],["prego","you're welcome"],["piacere","nice to meet you"],["scusi / scusa","excuse me"],["sì / no","yes / no"],["oggi","today"],["adesso","now"],["poi","then"],["oppure","or"],["anche","also"],["vicino a","near"],["lontano da","far from"],["forse","maybe"],["molto","very / a lot"],["un po'","a little"]]
+  },
+  "4": {
+    "Verbi": [["andare","to go"],["uscire","to go out"],["dormire","to sleep"],["giocare","to play (games/sport)"],["ballare","to dance"],["cucinare","to cook"],["suonare","to play (instrument)"],["insegnare","to teach"],["viaggiare","to travel"],["visitare","to visit"],["piacere","to be pleasing / to like"],["amare","to love"],["odiare","to hate"],["fumare","to smoke"],["scoprire","to discover"],["restare","to stay / remain"]],
+    "Tempo libero": [["il tempo libero","free time"],["il fine settimana","the weekend"],["lo sport","sport"],["il calcio","football"],["le carte","cards"],["la chitarra","guitar"],["il pianoforte","piano"],["la passeggiata","a walk"],["l'escursione","hike / excursion"],["la festa","party"],["la piscina","swimming pool"],["il romanzo","novel"],["la canzone","song"],["fare shopping","to go shopping"],["prendere il sole","to sunbathe"],["il mare","sea"]],
+    "Frequenza": [["sempre","always"],["tutti i giorni","every day"],["di solito","usually"],["spesso","often"],["qualche volta","sometimes"],["raramente","rarely"],["quasi mai","almost never"],["non... mai","never"]],
+    "Giorni e tempo": [["lunedì","Monday"],["martedì","Tuesday"],["mercoledì","Wednesday"],["giovedì","Thursday"],["venerdì","Friday"],["sabato","Saturday"],["domenica","Sunday"],["la mattina","morning"],["il pomeriggio","afternoon"],["la sera","evening"],["la notte","night"],["mezzogiorno","noon"],["mezzanotte","midnight"],["il quarto","quarter"]],
+    "Piacere ed espressioni": [["mi piace","I like (it)"],["mi piacciono","I like (them)"],["anche a me","me too"],["neanche a me","me neither"],["a me invece sì","I do (instead)"],["a me invece no","I don't (instead)"],["volentieri","gladly"],["invece","instead / whereas"],["magari","maybe / if only"],["interessante","interesting"]]
+  },
+  "5": {
+    "Verbi": [["venire","to come"],["potere","to be able / can"],["dovere","to have to / must"],["consigliare","to recommend"],["trovare","to find"],["affittare","to rent"],["funzionare","to work / function"],["gocciolare","to drip"],["mancare","to be missing / lack"],["controllare","to check"],["telefonare","to phone"],["costare","to cost"]],
+    "Tipi di alloggio": [["l'albergo","hotel"],["l'hotel","hotel"],["il bed & breakfast (B&B)","bed & breakfast"],["l'agriturismo","farm stay"],["la casa vacanze","holiday home"],["l'appartamento","apartment"],["la struttura","the property / facility"],["la reception","reception"],["il portiere","the concierge"],["in affitto","for rent"]],
+    "La stanza": [["la stanza","room"],["la camera singola","single room"],["la camera doppia","double room"],["la camera tripla","triple room"],["il letto matrimoniale","double bed"],["il divano letto","sofa bed"],["il comodino","bedside table"],["l'armadio","wardrobe"],["la lampada","lamp"],["la tenda","curtain"],["la finestra","window"],["il quadro","picture / painting"],["lo specchio","mirror"],["il balcone","balcony"],["la vista","view"],["il condizionatore","air conditioner"],["il termosifone","radiator"],["l'interruttore","light switch"],["il telecomando","remote control"],["la coperta","blanket"],["il cuscino","pillow"],["la valigia","suitcase"],["la sedia","chair"]],
+    "Il bagno": [["il bagno","bathroom"],["la doccia","shower"],["la vasca da bagno","bathtub"],["il bidet","bidet"],["l'asciugamano","towel"],["l'accappatoio","bathrobe"],["le ciabatte","slippers / flip-flops"],["il costume da bagno","swimsuit"],["la saponetta","bar of soap"],["la carta igienica","toilet paper"],["l'asciugacapelli","hair dryer"],["il lavandino","sink"],["la lampadina","light bulb"]],
+    "Servizi e pagamento": [["la colazione","breakfast"],["il pranzo","lunch"],["la cena","dinner"],["incluso","included"],["compreso","included"],["il parcheggio","parking"],["gratis / gratuito","free"],["la connessione / il Wi-Fi","connection / Wi-Fi"],["il pagamento","payment"],["in contanti","in cash"],["con carta","by card"],["il prezzo","price"],["caro","expensive"],["la cancellazione","cancellation"],["il servizio","service"],["i prodotti locali","local products"],["il centro storico","historic centre"],["a due passi da","a stone's throw from"],["attrezzato","equipped"],["spazioso","spacious"]],
+    "Le stanze della casa": [["la camera da letto","bedroom"],["la cucina","kitchen"],["il soggiorno","living room"],["il salotto","lounge"],["il piano terra","ground floor"],["il primo piano","first floor"],["il giardino","garden"]]
+  }
 };
 
-// ============ STATE ============
-const state = {
-  mode: 'flash',
-  cat: 'all',
-  dir: 'it-en',
-  best: JSON.parse(localStorage.getItem('vocabBest') || '{}') // note: in-memory fallback below
-};
-
-// localStorage is blocked in some sandboxes — wrap safely
-let BEST = {};
-try { BEST = JSON.parse(localStorage.getItem('vocabBest') || '{}'); } catch(e) { BEST = {}; }
-function saveBest() { try { localStorage.setItem('vocabBest', JSON.stringify(BEST)); } catch(e){} }
-
+const UNIT_ORDER = ['s1','4','5'];
+const UNIT_LABEL = { 's1':'Settimana 1', '4':'Capitolo 4', '5':'Capitolo 5' };
+const state = { mode:'flash', chap:'all', cat:'all', dir:'it-en' };
+let BEST={}; try{ BEST=JSON.parse(localStorage.getItem('vocabBestAll')||'{}'); }catch(e){ BEST={}; }
+function saveBest(){ try{ localStorage.setItem('vocabBestAll',JSON.stringify(BEST)); }catch(e){} }
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 
-function currentDeck(){
-  let deck = [];
-  if (state.cat === 'all') { for (const k in DATA) deck = deck.concat(DATA[k]); }
-  else deck = DATA[state.cat] || [];
-  // map to {q, a} based on direction
-  return deck.map(([it,en]) => state.dir==='it-en' ? {q:it,a:en,flag:'Italiano'} : {q:en,a:it,flag:'English'});
+function categoriesFor(chap){
+  const set=[]; const chaps = chap==='all'?UNIT_ORDER:[chap];
+  for(const ch of chaps){ for(const cat in DATA[ch]){ if(!set.includes(cat)) set.push(cat); } }
+  return set;
 }
-function fullDeck(){ // for distractors, always full pool
-  let deck=[]; for(const k in DATA) deck=deck.concat(DATA[k]);
-  return deck.map(([it,en]) => state.dir==='it-en' ? {q:it,a:en} : {q:en,a:it});
+function dedupMap(list){
+  const seen=new Set(); const out=[];
+  for(const [it,en] of list){ const k=it+'|'+en; if(!seen.has(k)){seen.add(k); out.push([it,en]);} }
+  return out.map(([it,en]) => state.dir==='it-en' ? {q:it,a:en,flag:'Italiano'} : {q:en,a:it,flag:'English'});
+}
+function buildDeck(){
+  let out=[]; const chaps = state.chap==='all'?UNIT_ORDER:[state.chap];
+  for(const ch of chaps){ for(const cat in DATA[ch]){ if(state.cat!=='all' && state.cat!==cat) continue; out=out.concat(DATA[ch][cat]); } }
+  return dedupMap(out);
+}
+function fullPool(){
+  let out=[]; for(const ch of UNIT_ORDER){ for(const cat in DATA[ch]) out=out.concat(DATA[ch][cat]); }
+  return dedupMap(out);
 }
 
-// ============ SETUP CONTROLS ============
-const catSelect = document.getElementById('catSelect');
-catSelect.innerHTML = '<option value="all">Tutte le categorie</option>' +
-  Object.keys(DATA).map(k=>`<option value="${k}">${k} (${DATA[k].length})</option>`).join('');
-catSelect.addEventListener('change', e => { state.cat = e.target.value; render(); });
-
-document.getElementById('dirToggle').addEventListener('click', e => {
-  const b = e.target.closest('button'); if(!b) return;
-  state.dir = b.dataset.dir;
-  [...e.currentTarget.children].forEach(c=>c.classList.toggle('on', c===b));
-  render();
+const chapSelect=document.getElementById('chapSelect');
+const catSelect=document.getElementById('catSelect');
+function refreshCats(){
+  const cats=categoriesFor(state.chap);
+  catSelect.innerHTML='<option value="all">Tutte le categorie</option>'+cats.map(c=>'<option value="'+c+'">'+c+'</option>').join('');
+  state.cat='all';
+}
+refreshCats();
+chapSelect.addEventListener('change',e=>{ state.chap=e.target.value; refreshCats(); render(); });
+catSelect.addEventListener('change',e=>{ state.cat=e.target.value; render(); });
+document.getElementById('dirToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return; state.dir=b.dataset.dir;
+  [...e.currentTarget.children].forEach(c=>c.classList.toggle('on',c===b)); render();
+});
+document.getElementById('tabs').addEventListener('click',e=>{
+  const t=e.target.closest('.tab'); if(!t) return; state.mode=t.dataset.mode;
+  [...document.querySelectorAll('.tab')].forEach(c=>c.classList.toggle('on',c===t)); render();
 });
 
-document.getElementById('tabs').addEventListener('click', e => {
-  const t = e.target.closest('.tab'); if(!t) return;
-  state.mode = t.dataset.mode;
-  [...document.querySelectorAll('.tab')].forEach(c=>c.classList.toggle('on', c===t));
-  render();
-});
+const panel=document.getElementById('panel');
+let timerId=null; function clearTimer(){ if(timerId){clearInterval(timerId); timerId=null;} }
 
-const panel = document.getElementById('panel');
-let timerId = null;
-function clearTimer(){ if(timerId){ clearInterval(timerId); timerId=null; } }
-
-// ============ RENDER DISPATCH ============
 function render(){
   clearTimer();
-  document.getElementById('deckInfo').textContent =
-    (state.cat==='all'?'Tutte le categorie':state.cat) + ' · ' +
-    (state.dir==='it-en'?'Italiano → English':'English → Italiano');
-  const deck = currentDeck();
-  if (deck.length === 0){ panel.innerHTML = '<div class="empty">Nessuna parola in questa categoria.</div>'; return; }
-  if (state.mode==='flash') renderFlash(deck);
-  else if (state.mode==='quiz') renderQuiz(deck);
-  else if (state.mode==='match') renderMatch(deck);
-  else if (state.mode==='speed') renderSpeed(deck);
+  const chapLabel = state.chap==='all'?'Tutti i capitoli':UNIT_LABEL[state.chap];
+  document.getElementById('deckInfo').textContent = chapLabel+' · '+(state.cat==='all'?'tutte le categorie':state.cat)+' · '+(state.dir==='it-en'?'IT → EN':'EN → IT');
+  const deck=buildDeck();
+  if(deck.length===0){ panel.innerHTML='<div class="empty">Nessuna parola in questa selezione.</div>'; return; }
+  if(state.mode==='flash') renderFlash(deck);
+  else if(state.mode==='quiz') renderQuiz(deck);
+  else if(state.mode==='match') renderMatch(deck);
+  else renderSpeed(deck);
 }
 
-// ============ FLASHCARD ============
 function renderFlash(deck){
-  let order = shuffle(deck);
-  let i = 0, known = 0, flipped = false;
-  let pile = []; // cards marked "non lo so" to repeat
-
+  let order=shuffle(deck), i=0, known=0, flipped=false, pile=[];
   function draw(){
-    const card = order[i];
-    panel.innerHTML = `
-      <div class="panel-status">
-        <span>Carta <b>${i+1}</b> / ${order.length}</span>
-        <span class="score">Sapute: <b>${known}</b></span>
-      </div>
-      <div class="flashcard">
-        <div class="card-inner" id="ci">
-          <div class="card-face card-front">
-            <span class="flag">${card.flag}</span>
-            <span class="card-word">${card.q}</span>
-            <span class="card-hint">tocca per girare</span>
-          </div>
-          <div class="card-face card-back">
-            <span class="flag">${state.dir==='it-en'?'English':'Italiano'}</span>
-            <span class="card-word">${card.a}</span>
-            <span class="card-hint">la sapevi?</span>
-          </div>
-        </div>
-      </div>
-      <div class="btn-row" id="fbtns">
-        <button class="act dunno" data-a="no">Non la so</button>
-        <button class="act know" data-a="yes">La so ✓</button>
-      </div>`;
-    flipped = false;
-    const ci = document.getElementById('ci');
-    ci.addEventListener('click', ()=>{ flipped=!flipped; ci.classList.toggle('flipped',flipped); });
-    document.getElementById('fbtns').addEventListener('click', e=>{
+    const card=order[i];
+    panel.innerHTML='<div class="panel-status"><span>Carta <b>'+(i+1)+'</b> / '+order.length+'</span><span class="score">Sapute: <b>'+known+'</b></span></div>'+
+      '<div class="flashcard"><div class="card-inner" id="ci">'+
+      '<div class="card-face card-front"><span class="flag">'+card.flag+'</span><span class="card-word">'+card.q+'</span><span class="card-hint">tocca per girare</span></div>'+
+      '<div class="card-face card-back"><span class="flag">'+(state.dir==='it-en'?'English':'Italiano')+'</span><span class="card-word">'+card.a+'</span><span class="card-hint">la sapevi?</span></div>'+
+      '</div></div>'+
+      '<div class="btn-row" id="fbtns"><button class="act dunno" data-a="no">Non la so</button><button class="act know" data-a="yes">La so ✓</button></div>';
+    flipped=false;
+    const ci=document.getElementById('ci');
+    ci.addEventListener('click',()=>{ flipped=!flipped; ci.classList.toggle('flipped',flipped); });
+    document.getElementById('fbtns').addEventListener('click',e=>{
       const b=e.target.closest('button'); if(!b) return;
-      if(b.dataset.a==='yes') known++; else pile.push(card);
-      next();
+      if(b.dataset.a==='yes') known++; else pile.push(card); next();
     });
   }
-  function next(){
-    i++;
-    if(i>=order.length){
-      if(pile.length){ order=shuffle(pile); pile=[]; i=0; draw(); }
-      else finish();
-    } else draw();
-  }
-  function finish(){
-    panel.innerHTML = `
-      <div class="panel-status"><span>Flashcard</span><span></span></div>
-      <div class="center-screen">
-        <div class="big-num">${known}</div>
-        <h2>Mazzo completato!</h2>
-        <p>Hai ripassato tutte le ${order.length} carte. Le parole segnate "non la so" sono state ripetute finché non le hai sapute.</p>
-        <button class="act primary" onclick="render()">Ricomincia</button>
-      </div>`;
-  }
+  function next(){ i++; if(i>=order.length){ if(pile.length){ order=shuffle(pile); pile=[]; i=0; draw(); } else finish(); } else draw(); }
+  function finish(){ panel.innerHTML='<div class="panel-status"><span>Flashcard</span><span></span></div>'+
+    '<div class="center-screen"><div class="big-num">'+known+'</div><h2>Mazzo completato!</h2>'+
+    '<p>Le parole "non la so" sono state ripetute finché non le hai sapute.</p>'+
+    '<button class="act primary" onclick="render()">Ricomincia</button></div>'; }
   draw();
 }
 
-// ============ QUIZ ============
 function renderQuiz(deck){
-  const questions = shuffle(deck);
-  const pool = fullDeck();
-  let i=0, correct=0;
-
+  const questions=shuffle(deck), pool=fullPool(); let i=0, correct=0;
   function draw(){
-    const q = questions[i];
-    // build 3 distractors with different answers
-    const others = shuffle(pool.filter(x=>x.a!==q.a)).slice(0,3).map(x=>x.a);
-    const opts = shuffle([q.a, ...others]);
-    panel.innerHTML = `
-      <div class="panel-status">
-        <span>Domanda <b>${i+1}</b> / ${questions.length}</span>
-        <span class="score">Giuste: <b>${correct}</b></span>
-      </div>
-      <div class="quiz-q">
-        <div class="flag">${q.flag} — che significa?</div>
-        <div class="word">${q.q}</div>
-      </div>
-      <div class="quiz-opts" id="opts">
-        ${opts.map(o=>`<button class="opt" data-o="${encodeURIComponent(o)}">${o}</button>`).join('')}
-      </div>`;
-    document.getElementById('opts').addEventListener('click', e=>{
+    const q=questions[i];
+    const others=shuffle(pool.filter(x=>x.a!==q.a)).slice(0,3).map(x=>x.a);
+    const opts=shuffle([q.a,...others]);
+    panel.innerHTML='<div class="panel-status"><span>Domanda <b>'+(i+1)+'</b> / '+questions.length+'</span><span class="score">Giuste: <b>'+correct+'</b></span></div>'+
+      '<div class="quiz-q"><div class="flag">'+q.flag+' — che significa?</div><div class="word">'+q.q+'</div></div>'+
+      '<div class="quiz-opts" id="opts">'+opts.map(o=>'<button class="opt" data-o="'+encodeURIComponent(o)+'">'+o+'</button>').join('')+'</div>';
+    document.getElementById('opts').addEventListener('click',e=>{
       const b=e.target.closest('.opt'); if(!b) return;
-      const chosen = decodeURIComponent(b.dataset.o);
-      [...document.querySelectorAll('.opt')].forEach(o=>{
-        o.disabled=true;
-        const val=decodeURIComponent(o.dataset.o);
-        if(val===q.a) o.classList.add('correct');
-        else if(o===b) o.classList.add('wrong');
-      });
+      const chosen=decodeURIComponent(b.dataset.o);
+      [...document.querySelectorAll('.opt')].forEach(o=>{ o.disabled=true; const v=decodeURIComponent(o.dataset.o);
+        if(v===q.a) o.classList.add('correct'); else if(o===b) o.classList.add('wrong'); });
       if(chosen===q.a) correct++;
       setTimeout(next, chosen===q.a?600:1100);
     });
   }
   function next(){ i++; if(i>=questions.length) finish(); else draw(); }
-  function finish(){
-    const pct = Math.round(correct/questions.length*100);
-    panel.innerHTML=`
-      <div class="panel-status"><span>Quiz</span><span></span></div>
-      <div class="center-screen">
-        <div class="big-num">${correct}/${questions.length}</div>
-        <h2>${pct>=80?'Ottimo lavoro!':pct>=50?'Buon inizio!':'Continua a ripassare'}</h2>
-        <p>Hai risposto correttamente al ${pct}% delle domande.</p>
-        <button class="act primary" onclick="render()">Riprova</button>
-      </div>`;
-  }
+  function finish(){ const pct=Math.round(correct/questions.length*100);
+    panel.innerHTML='<div class="panel-status"><span>Quiz</span><span></span></div>'+
+    '<div class="center-screen"><div class="big-num">'+correct+'/'+questions.length+'</div>'+
+    '<h2>'+(pct>=80?'Ottimo lavoro!':pct>=50?'Buon inizio!':'Continua a ripassare')+'</h2>'+
+    '<p>Hai risposto correttamente al '+pct+'% delle domande.</p>'+
+    '<button class="act primary" onclick="render()">Riprova</button></div>'; }
   draw();
 }
 
-// ============ MATCHING ============
 function renderMatch(deck){
-  const BATCH = Math.min(6, deck.length);
-  let remaining = shuffle(deck);
-  let round = 0, totalMatched = 0;
-  const totalPairs = deck.length;
-
+  const BATCH=Math.min(6,deck.length); let remaining=shuffle(deck), totalMatched=0; const totalPairs=deck.length;
   function draw(){
-    const batch = remaining.slice(0, BATCH);
+    const batch=remaining.slice(0,BATCH);
     if(batch.length===0){ finish(); return; }
-    const left = batch.map((c,idx)=>({...c, id:idx}));
-    const right = shuffle(left.map(c=>({a:c.a, id:c.id})));
-    let sel = null, done = 0;
-
-    panel.innerHTML=`
-      <div class="panel-status">
-        <span>Abbinate <b>${totalMatched}</b> / ${totalPairs}</span>
-        <span class="score">Collega le coppie</span>
-      </div>
-      <div class="match-grid">
-        <div class="match-col" id="colL">
-          ${left.map(c=>`<button class="match-item it" data-id="${c.id}" data-side="L">${c.q}</button>`).join('')}
-        </div>
-        <div class="match-col" id="colR">
-          ${right.map(c=>`<button class="match-item" data-id="${c.id}" data-side="R">${c.a}</button>`).join('')}
-        </div>
-      </div>`;
-
-    panel.querySelector('.match-grid').addEventListener('click', e=>{
+    const left=batch.map((c,idx)=>Object.assign({},c,{id:idx}));
+    const right=shuffle(left.map(c=>({a:c.a,id:c.id})));
+    let sel=null, done=0;
+    panel.innerHTML='<div class="panel-status"><span>Abbinate <b>'+totalMatched+'</b> / '+totalPairs+'</span><span class="score">Collega le coppie</span></div>'+
+      '<div class="match-grid">'+
+      '<div class="match-col">'+left.map(c=>'<button class="match-item it" data-id="'+c.id+'" data-side="L">'+c.q+'</button>').join('')+'</div>'+
+      '<div class="match-col">'+right.map(c=>'<button class="match-item" data-id="'+c.id+'" data-side="R">'+c.a+'</button>').join('')+'</div>'+
+      '</div>';
+    panel.querySelector('.match-grid').addEventListener('click',e=>{
       const b=e.target.closest('.match-item'); if(!b||b.classList.contains('done')) return;
       if(!sel){ sel=b; b.classList.add('sel'); return; }
       if(sel===b){ b.classList.remove('sel'); sel=null; return; }
-      if(sel.dataset.side===b.dataset.side){ // same column, switch selection
-        sel.classList.remove('sel'); sel=b; b.classList.add('sel'); return;
-      }
-      // compare
+      if(sel.dataset.side===b.dataset.side){ sel.classList.remove('sel'); sel=b; b.classList.add('sel'); return; }
       if(sel.dataset.id===b.dataset.id){
-        [sel,b].forEach(x=>{x.classList.add('flash-ok');});
-        const s=sel;
+        const s=sel; [s,b].forEach(x=>x.classList.add('flash-ok'));
         setTimeout(()=>{ [s,b].forEach(x=>{x.classList.remove('sel','flash-ok'); x.classList.add('done');}); },250);
         sel=null; done++; totalMatched++;
-        if(done===batch.length){ setTimeout(()=>{ remaining=remaining.slice(BATCH); round++; draw(); }, 450); }
+        if(done===batch.length){ setTimeout(()=>{ remaining=remaining.slice(BATCH); draw(); },450); }
       } else {
         const a=sel; a.classList.add('flash-no'); b.classList.add('flash-no');
-        setTimeout(()=>{ a.classList.remove('sel','flash-no'); b.classList.remove('flash-no'); },500);
-        sel=null;
+        setTimeout(()=>{ a.classList.remove('sel','flash-no'); b.classList.remove('flash-no'); },500); sel=null;
       }
     });
   }
-  function finish(){
-    panel.innerHTML=`
-      <div class="panel-status"><span>Abbina</span><span></span></div>
-      <div class="center-screen">
-        <div class="big-num">✓</div>
-        <h2>Tutte abbinate!</h2>
-        <p>Hai collegato tutte le ${totalPairs} coppie di questo mazzo.</p>
-        <button class="act primary" onclick="render()">Ricomincia</button>
-      </div>`;
-  }
+  function finish(){ panel.innerHTML='<div class="panel-status"><span>Abbina</span><span></span></div>'+
+    '<div class="center-screen"><div class="big-num">✓</div><h2>Tutte abbinate!</h2>'+
+    '<p>Hai collegato tutte le '+totalPairs+' coppie.</p><button class="act primary" onclick="render()">Ricomincia</button></div>'; }
   draw();
 }
 
-// ============ SPEEDRUN ============
 function renderSpeed(deck){
-  const DURATION = 60;
-  const bestKey = `${state.cat}|${state.dir}`;
-  const prevBest = BEST[bestKey] || 0;
-
+  const DURATION=60; const bestKey=state.chap+'|'+state.cat+'|'+state.dir; const prevBest=BEST[bestKey]||0;
   function startScreen(){
-    panel.innerHTML=`
-      <div class="panel-status"><span>Speedrun · 60 secondi</span><span class="best">${prevBest?`Record: <b>${prevBest}</b>`:''}</span></div>
-      <div class="center-screen">
-        <div style="font-size:44px">⚡</div>
-        <h2>Speedrun</h2>
-        <p>Quante parole indovini in 60 secondi? Scegli la traduzione giusta il più velocemente possibile.</p>
-        <button class="act primary" id="startBtn">Via!</button>
-      </div>`;
-    document.getElementById('startBtn').onclick = run;
+    panel.innerHTML='<div class="panel-status"><span>Speedrun · 60 secondi</span><span class="best">'+(prevBest?'Record: <b>'+prevBest+'</b>':'')+'</span></div>'+
+    '<div class="center-screen"><div style="font-size:44px">⚡</div><h2>Speedrun</h2>'+
+    '<p>Quante parole indovini in 60 secondi?</p><button class="act primary" id="startBtn">Via!</button></div>';
+    document.getElementById('startBtn').onclick=run;
   }
-
   function run(){
-    let time = DURATION, score = 0;
-    const pool = fullDeck();
-    const questions = shuffle(deck);
-    let qi = 0;
-
-    function tick(){
-      time--;
-      const t=document.getElementById('spTime'), bar=document.getElementById('spBar');
-      if(t){ t.textContent=time; t.classList.toggle('low', time<=10); }
-      if(bar){ bar.style.width=(time/DURATION*100)+'%'; }
-      if(time<=0){ clearTimer(); end(score); }
-    }
-    timerId = setInterval(tick, 1000);
-
+    let time=DURATION, score=0; const pool=fullPool(); const questions=shuffle(deck); let qi=0;
+    function tick(){ time--; const t=document.getElementById('spTime'), bar=document.getElementById('spBar');
+      if(t){ t.textContent=time; t.classList.toggle('low',time<=10);} if(bar){ bar.style.width=(time/DURATION*100)+'%';}
+      if(time<=0){ clearTimer(); end(score);} }
+    timerId=setInterval(tick,1000);
     function draw(){
-      if(qi>=questions.length){ qi=0; } // loop deck if exhausted
-      const q = questions[qi];
-      const others = shuffle(pool.filter(x=>x.a!==q.a)).slice(0,3).map(x=>x.a);
-      const opts = shuffle([q.a,...others]);
-      panel.innerHTML=`
-        <div class="panel-status">
-          <span class="score">Punti: <b>${score}</b></span>
-          <span class="best">${prevBest?`Record: <b>${prevBest}</b>`:''}</span>
-        </div>
-        <div class="speed-timer" id="spTime">${time}</div>
-        <div class="speed-bar"><div class="speed-bar-fill" id="spBar" style="width:${time/DURATION*100}%"></div></div>
-        <div class="quiz-q">
-          <div class="flag">${q.flag}</div>
-          <div class="word">${q.q}</div>
-        </div>
-        <div class="quiz-opts" id="opts">
-          ${opts.map(o=>`<button class="opt" data-o="${encodeURIComponent(o)}">${o}</button>`).join('')}
-        </div>`;
-      document.getElementById('opts').addEventListener('click', e=>{
+      if(qi>=questions.length) qi=0;
+      const q=questions[qi];
+      const others=shuffle(pool.filter(x=>x.a!==q.a)).slice(0,3).map(x=>x.a);
+      const opts=shuffle([q.a,...others]);
+      panel.innerHTML='<div class="panel-status"><span class="score">Punti: <b>'+score+'</b></span><span class="best">'+(prevBest?'Record: <b>'+prevBest+'</b>':'')+'</span></div>'+
+        '<div class="speed-timer" id="spTime">'+time+'</div>'+
+        '<div class="speed-bar"><div class="speed-bar-fill" id="spBar" style="width:'+(time/DURATION*100)+'%"></div></div>'+
+        '<div class="quiz-q"><div class="flag">'+q.flag+'</div><div class="word">'+q.q+'</div></div>'+
+        '<div class="quiz-opts" id="opts">'+opts.map(o=>'<button class="opt" data-o="'+encodeURIComponent(o)+'">'+o+'</button>').join('')+'</div>';
+      document.getElementById('opts').addEventListener('click',e=>{
         const b=e.target.closest('.opt'); if(!b) return;
         const chosen=decodeURIComponent(b.dataset.o);
         if(chosen===q.a){ score++; b.classList.add('correct'); }
-        else { b.classList.add('wrong');
-          document.querySelectorAll('.opt').forEach(o=>{ if(decodeURIComponent(o.dataset.o)===q.a) o.classList.add('correct'); });
-        }
-        document.querySelectorAll('.opt').forEach(o=>o.disabled=true);
-        qi++;
-        setTimeout(()=>{ if(time>0) draw(); }, 220);
+        else { b.classList.add('wrong'); document.querySelectorAll('.opt').forEach(o=>{ if(decodeURIComponent(o.dataset.o)===q.a) o.classList.add('correct'); }); }
+        document.querySelectorAll('.opt').forEach(o=>o.disabled=true); qi++;
+        setTimeout(()=>{ if(time>0) draw(); },200);
       });
     }
     draw();
   }
-
-  function end(score){
-    const isRecord = score>prevBest;
-    if(isRecord){ BEST[bestKey]=score; saveBest(); }
-    panel.innerHTML=`
-      <div class="panel-status"><span>Speedrun finito</span><span></span></div>
-      <div class="center-screen">
-        <div class="big-num">${score}</div>
-        <h2>${isRecord?'Nuovo record! 🎉':'Tempo scaduto!'}</h2>
-        <p>${isRecord?'Hai battuto il tuo punteggio migliore.':`Il tuo record resta ${prevBest}. Riprova!`}</p>
-        <button class="act primary" onclick="render()">Rigioca</button>
-      </div>`;
-  }
-
+  function end(score){ const rec=score>prevBest; if(rec){ BEST[bestKey]=score; saveBest(); }
+    panel.innerHTML='<div class="panel-status"><span>Speedrun finito</span><span></span></div>'+
+    '<div class="center-screen"><div class="big-num">'+score+'</div><h2>'+(rec?'Nuovo record! 🎉':'Tempo scaduto!')+'</h2>'+
+    '<p>'+(rec?'Hai battuto il tuo punteggio migliore.':'Il tuo record resta '+prevBest+'.')+'</p>'+
+    '<button class="act primary" onclick="render()">Rigioca</button></div>'; }
   startScreen();
 }
 
-// ============ GO ============
 render();
 </script>
 </body>
